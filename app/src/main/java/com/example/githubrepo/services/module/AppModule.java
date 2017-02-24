@@ -19,6 +19,7 @@ import dagger.Provides;
 @Module(
         includes = {
                 BusModule.class,
+                NetModule.class
         },
         injects = {
                 MyApplication.class,

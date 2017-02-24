@@ -55,11 +55,13 @@ public abstract class BaseSearchActivity extends AppCompatActivity {
 
     protected Drawable x;
 
-    protected GitHubService mService;
+    //protected GitHubService mService;
     protected SharedPreferences mSharedPref;
 
     @Inject
     BusProvider busProvider;
+    @Inject
+    GitHubService gitHubService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,25 +72,7 @@ public abstract class BaseSearchActivity extends AppCompatActivity {
         ((MyApplication) getApplication()).inject(this);
 
         mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        initGitHubService();
     }
-
-    private void initGitHubService() {
-        //Create GitHubService
-        GsonBuilder mBuilder = new GsonBuilder();
-        Type listStockMover = new TypeToken<List<Repository>>() {
-        }.getType();
-        mBuilder.registerTypeAdapter(listStockMover, new RepoListDeserializer());
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.GITHUB_SEARCH_URL)
-                .addConverterFactory(GsonConverterFactory.create(mBuilder.create()))
-                .build();
-
-        mService = retrofit.create(GitHubService.class);
-    }
-
-
 
     @Override
     protected void onStart() {

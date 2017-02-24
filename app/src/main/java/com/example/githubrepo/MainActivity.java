@@ -45,6 +45,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.githubrepo.models.Repository;
+import com.example.githubrepo.services.GitHubService;
 import com.example.githubrepo.services.event.BusEvent;
 import com.example.githubrepo.services.event.LoadReposEvent;
 import com.squareup.otto.Subscribe;
@@ -255,7 +256,7 @@ public class MainActivity extends BaseSearchActivity {
         showProgressBar();
         mIsLoading = true;
 
-        Call<List<Repository>> mCallProductList = mService.listRepos(query, sort, null, pageNum,
+        Call<List<Repository>> mCallProductList = gitHubService.listRepos(query, sort, null, pageNum,
                 Constants.NUM_LOADED);
 
 

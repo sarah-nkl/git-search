@@ -35,19 +35,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
 
-    private LayoutInflater inflater = null;
     private AppCompatActivity mActivity;
     private List<Repository> mRepoList;
 
     public RepoListAdapter(AppCompatActivity activity, List<Repository> repoList) {
         this.mActivity = activity;
         this.mRepoList = repoList;
-        inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public RepoListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = inflater.inflate(R.layout.list_item_repo, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_repo, parent, false);
 
         return new ViewHolder(v);
     }
