@@ -25,27 +25,17 @@ package com.example.githubrepo;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
-import com.example.githubrepo.models.Repository;
 import com.example.githubrepo.services.BusProvider;
 import com.example.githubrepo.services.GitHubService;
 import com.example.githubrepo.services.event.BusEvent;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.Comparator;
-import java.util.List;
+import com.example.githubrepo.services.event.LoadReposEvent;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by sarahneo on 20/2/17.
@@ -55,13 +45,14 @@ public abstract class BaseSearchActivity extends AppCompatActivity {
 
     protected Drawable x;
 
-    //protected GitHubService mService;
-    protected SharedPreferences mSharedPref;
-
     @Inject
     BusProvider busProvider;
     @Inject
     GitHubService gitHubService;
+    @Inject
+    SharedPreferences mSharedPref;
+
+    protected LoadReposEvent event;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,8 +61,7 @@ public abstract class BaseSearchActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ((MyApplication) getApplication()).inject(this);
-
-        mSharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        event = (LoadReposEvent) getEvent(BusEvent.EventType.REPOS);
     }
 
     @Override

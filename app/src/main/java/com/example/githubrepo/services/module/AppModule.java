@@ -2,6 +2,8 @@ package com.example.githubrepo.services.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.githubrepo.BaseSearchActivity;
 import com.example.githubrepo.MainActivity;
@@ -45,5 +47,11 @@ public class AppModule {
     @Singleton
     public Context provideApplicationContext() {
         return app;
+    }
+
+    @Provides
+    @Singleton
+    public SharedPreferences provideSharedPrefs() {
+        return PreferenceManager.getDefaultSharedPreferences(app);
     }
 }

@@ -17,8 +17,6 @@ public class Repository implements Parcelable {
     private String fullName;
     @SerializedName("description")
     private String desc;
-    @SerializedName("pushed_at")
-    private String pushedAt;
     @SerializedName("stargazers_count")
     private int stargazersCount;
     @SerializedName("language")
@@ -28,6 +26,7 @@ public class Repository implements Parcelable {
     @SerializedName("html_url")
     private String htmlUrl;
 
+    private long pushedAt;
     private String ownerAvatarUrl;
     private int total;
 
@@ -57,11 +56,11 @@ public class Repository implements Parcelable {
         this.desc = desc;
     }
 
-    public String getPushedAt() {
+    public long getPushedAt() {
         return pushedAt;
     }
 
-    public void setPushedAt(String pushedAt) {
+    public void setPushedAt(long pushedAt) {
         this.pushedAt = pushedAt;
     }
 
@@ -123,7 +122,7 @@ public class Repository implements Parcelable {
         dest.writeLong(id);
         dest.writeString(fullName);
         dest.writeString(desc);
-        dest.writeString(pushedAt);
+        dest.writeLong(pushedAt);
         dest.writeInt(stargazersCount);
         dest.writeString(language);
         dest.writeInt(forksCount);
@@ -147,7 +146,7 @@ public class Repository implements Parcelable {
         id = pc.readLong();
         fullName = pc.readString();
         desc = pc.readString();
-        pushedAt = pc.readString();
+        pushedAt = pc.readLong();
         stargazersCount = pc.readInt();
         language = pc.readString();
         forksCount = pc.readInt();

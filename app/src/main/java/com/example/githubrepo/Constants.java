@@ -8,5 +8,6 @@ public class Constants {
 
     public static final String GITHUB_SEARCH_URL = "https://api.github.com/";
     public static final String SP_LAST_QUERY = "sp_last_query";
+    public static final String SP_IS_FIRST_LAUNCH = "sp_is_first_launch";
     public static final int NUM_LOADED = 20;
 }

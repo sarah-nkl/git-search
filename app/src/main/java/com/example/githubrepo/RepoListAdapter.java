@@ -1,6 +1,5 @@
 package com.example.githubrepo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -19,9 +18,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.githubrepo.models.Repository;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -66,14 +62,14 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         holder.tvLanguage.setText(item.getLanguage());
         holder.tvStars.setText(Integer.toString(item.getStargazersCount()));
         holder.tvForks.setText(Integer.toString(item.getForksCount()));
-        if (item.getPushedAt() != null) {
+        if (item.getPushedAt() != 0) {
             holder.tvLastUpdated.setText(DateUtils.getRelativeTimeSpanString(
-                    convertStringToTimeMillis(item.getPushedAt()),
+                    item.getPushedAt(),
                     System.currentTimeMillis(),
                     DateUtils.DAY_IN_MILLIS));
         }
 
-        Glide.with(mActivity)
+        Glide.with(holder.civProfile.getContext())
                 .load(item.getOwnerAvatarUrl())
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(holder.civProfile);
@@ -110,18 +106,5 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         }
 
 
-    }
-
-    private static long convertStringToTimeMillis(String dateString) {
-        long milliseconds = 0;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        try {
-            Date d = sdf.parse(dateString.replaceAll("Z$", "+0000"));
-            milliseconds = d.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return milliseconds;
     }
 }

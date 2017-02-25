@@ -33,7 +33,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,12 +44,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.githubrepo.models.Repository;
-import com.example.githubrepo.services.GitHubService;
-import com.example.githubrepo.services.event.BusEvent;
 import com.example.githubrepo.services.event.LoadReposEvent;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindString;
@@ -66,7 +64,6 @@ import retrofit2.Response;
 
 public class MainActivity extends BaseSearchActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String KEY_REPO_LIST = "key_repo_list";
     private static final String KEY_IS_LOADING = "key_is_loading";
     private static final String KEY_IS_SHOW_SEARCH = "key_is_show_search";
@@ -109,20 +106,18 @@ public class MainActivity extends BaseSearchActivity {
 
         mRepoList = new ArrayList<>();
 
-        LoadReposEvent event = (LoadReposEvent) getEvent(BusEvent.EventType.REPOS);
         if (savedInstanceState != null) {
             mRepoList = savedInstanceState.getParcelableArrayList(KEY_REPO_LIST);
             mIsLoading = savedInstanceState.getBoolean(KEY_IS_LOADING);
             mIsAllLoaded = savedInstanceState.getBoolean(KEY_IS_ALL_LOADED);
             toggleShowSearch(savedInstanceState.getBoolean(KEY_IS_SHOW_SEARCH));
-        } else if (event.getData().size() != 0)
-            mRepoList.addAll(event.getData());
+        }
 
         mLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_item_list_count));
         rvResults.setLayoutManager(mLayoutManager);
         rvResults.setAdapter(mAdapter = new RepoListAdapter(this, mRepoList));
 
-        if (mRepoList.size() == 0 && !mIsLoading) {
+        if (mSharedPref.getBoolean(Constants.SP_IS_FIRST_LAUNCH, true) && mRepoList.size() == 0 && !mIsLoading) {
             // Check last search
             String lastSearch = mSharedPref.getString(Constants.SP_LAST_QUERY, "");
             if (lastSearch.equals("")) {
@@ -137,6 +132,9 @@ public class MainActivity extends BaseSearchActivity {
                 etQuery.setText(lastSearch);
                 etQuery.setSelection(etQuery.getText().length());
             }
+
+            // Set to not first launch
+            mSharedPref.edit().putBoolean(Constants.SP_IS_FIRST_LAUNCH, false).apply();
         }
 
         etQuery.setCompoundDrawables(null, null, etQuery.getText().toString().equals("") ? null : x, null);
@@ -202,13 +200,11 @@ public class MainActivity extends BaseSearchActivity {
         etQuery.setOnEditorActionListener(mEditorActionListener);
         rvResults.addOnScrollListener(mOnScrollListener);
 
-    }
+        if (mIsLoading && event.getData().size() != 0)
+            populateAndShowResults();
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mIsLoading)
-            showProgressBar();
+        if (mRepoList.size() == 0 && !mIsLoading)
+            tvNoResults.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -233,9 +229,7 @@ public class MainActivity extends BaseSearchActivity {
             if (tvNoResults.getVisibility() == View.VISIBLE)
                 tvNoResults.setVisibility(View.GONE);
             int totalCount = event.getData().get(0).getTotal();
-            int posStart = mRepoList.size();
-            mRepoList.addAll(event.getData());
-            mAdapter.notifyItemRangeInserted(posStart, event.getData().size());
+            populateAndShowResults();
             mIsLoading = false;
             if (mRepoList.size() == totalCount)
                 mIsAllLoaded = true;
@@ -252,6 +246,16 @@ public class MainActivity extends BaseSearchActivity {
         toggleShowSearch(true);
     }
 
+    private void populateAndShowResults() {
+        int posStart = mRepoList.size();
+        mRepoList.addAll(event.getData());
+        mAdapter.notifyItemRangeInserted(posStart, mRepoList.size());
+        mIsLoading = false;
+
+        // Clear event data
+        event.setData(Collections.EMPTY_LIST);
+    }
+
     private void getRepoList(String query, String sort, int pageNum) {
         showProgressBar();
         mIsLoading = true;
@@ -259,12 +263,9 @@ public class MainActivity extends BaseSearchActivity {
         Call<List<Repository>> mCallProductList = gitHubService.listRepos(query, sort, null, pageNum,
                 Constants.NUM_LOADED);
 
-
         mCallProductList.enqueue(new Callback<List<Repository>>() {
             @Override
             public void onResponse(Call<List<Repository>> call, Response<List<Repository>> response) {
-                LoadReposEvent event = (LoadReposEvent) getEvent(
-                        BusEvent.EventType.REPOS);
                 event.setData(response.body());
                 post(event);
             }
@@ -272,8 +273,8 @@ public class MainActivity extends BaseSearchActivity {
             @Override
             public void onFailure(Call<List<Repository>> call, Throwable t) {
                 hideProgressBar();
-                Log.d(TAG, t.getMessage());
                 t.printStackTrace();
+                mIsAllLoaded = true;
                 mRepoList.clear();
                 mAdapter.notifyDataSetChanged();
                 tvNoResults.setVisibility(View.VISIBLE);
@@ -364,14 +365,10 @@ public class MainActivity extends BaseSearchActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        LoadReposEvent event = (LoadReposEvent) getEvent(
-                BusEvent.EventType.REPOS);
-        event.setData(mRepoList);
-
+    public void onBackPressed() {
+        super.onBackPressed();
         mSharedPref.edit().putString(Constants.SP_LAST_QUERY, etQuery.getText().toString()).apply();
+        mSharedPref.edit().putBoolean(Constants.SP_IS_FIRST_LAUNCH, true).apply();
     }
 
 }
