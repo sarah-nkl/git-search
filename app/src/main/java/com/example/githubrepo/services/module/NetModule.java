@@ -1,6 +1,5 @@
 package com.example.githubrepo.services.module;
 
-import com.example.githubrepo.Constants;
 import com.example.githubrepo.RepoListDeserializer;
 import com.example.githubrepo.models.Repository;
 import com.example.githubrepo.services.GitHubService;
@@ -15,9 +14,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.example.githubrepo.ConstantsKt.GITHUB_SEARCH_URL;
 
 /**
  * Created by sarah_neo on 24/02/2017.
@@ -44,7 +44,7 @@ public class NetModule {
     Retrofit provideRetrofit(Gson gson) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(Constants.GITHUB_SEARCH_URL)
+                .baseUrl(GITHUB_SEARCH_URL)
                 .build();
     }
 

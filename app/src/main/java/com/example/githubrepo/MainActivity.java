@@ -58,6 +58,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.githubrepo.ConstantsKt.NUM_LOADED;
+import static com.example.githubrepo.ConstantsKt.SP_IS_FIRST_LAUNCH;
+import static com.example.githubrepo.ConstantsKt.SP_LAST_QUERY;
+
 /**
  * Created by sarahneo on 20/2/17.
  */
@@ -117,9 +121,9 @@ public class MainActivity extends BaseSearchActivity {
         rvResults.setLayoutManager(mLayoutManager);
         rvResults.setAdapter(mAdapter = new RepoListAdapter(this, mRepoList));
 
-        if (mSharedPref.getBoolean(Constants.SP_IS_FIRST_LAUNCH, true) && mRepoList.size() == 0 && !mIsLoading) {
+        if (mSharedPref.getBoolean(SP_IS_FIRST_LAUNCH, true) && mRepoList.size() == 0 && !mIsLoading) {
             // Check last search
-            String lastSearch = mSharedPref.getString(Constants.SP_LAST_QUERY, "");
+            String lastSearch = mSharedPref.getString(SP_LAST_QUERY, "");
             if (lastSearch.equals("")) {
                 // On first load, generate popular repositories
                 getRepoList(QUERY_ON_FIRST_LOAD, SORT_BY_UPDATED, 1);
@@ -134,7 +138,7 @@ public class MainActivity extends BaseSearchActivity {
             }
 
             // Set to not first launch
-            mSharedPref.edit().putBoolean(Constants.SP_IS_FIRST_LAUNCH, false).apply();
+            mSharedPref.edit().putBoolean(SP_IS_FIRST_LAUNCH, false).apply();
         }
 
         etQuery.setCompoundDrawables(null, null, etQuery.getText().toString().equals("") ? null : x, null);
@@ -166,7 +170,7 @@ public class MainActivity extends BaseSearchActivity {
     }
 
     private void initToolbar() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
     }
 
@@ -261,7 +265,7 @@ public class MainActivity extends BaseSearchActivity {
         mIsLoading = true;
 
         Call<List<Repository>> mCallProductList = gitHubService.listRepos(query, sort, null, pageNum,
-                Constants.NUM_LOADED);
+                NUM_LOADED);
 
         mCallProductList.enqueue(new Callback<List<Repository>>() {
             @Override
@@ -333,7 +337,7 @@ public class MainActivity extends BaseSearchActivity {
         if (!mIsAllLoaded && !etQuery.getText().toString().equals("")) {
             // Load data
             int index = mRepoList.size();
-            getRepoList(etQuery.getText().toString(), SORT_BY_STARS, index / Constants.NUM_LOADED + 1);
+            getRepoList(etQuery.getText().toString(), SORT_BY_STARS, index / NUM_LOADED + 1);
         }
     }
 
@@ -367,8 +371,8 @@ public class MainActivity extends BaseSearchActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mSharedPref.edit().putString(Constants.SP_LAST_QUERY, etQuery.getText().toString()).apply();
-        mSharedPref.edit().putBoolean(Constants.SP_IS_FIRST_LAUNCH, true).apply();
+        mSharedPref.edit().putString(SP_LAST_QUERY, etQuery.getText().toString()).apply();
+        mSharedPref.edit().putBoolean(SP_IS_FIRST_LAUNCH, true).apply();
     }
 
 }
