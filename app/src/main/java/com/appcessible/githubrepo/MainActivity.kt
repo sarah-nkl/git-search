@@ -1,4 +1,4 @@
-package com.example.githubrepo
+package com.appcessible.githubrepo
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,10 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubrepo.models.Repository
-import com.example.githubrepo.models.RepositoryList
-import com.example.githubrepo.services.event.BusEvent
-import com.example.githubrepo.services.event.LoadReposEvent
+import com.appcessible.githubrepo.models.Repository
+import com.appcessible.githubrepo.models.RepositoryList
+import com.appcessible.githubrepo.services.event.BusEvent
+import com.appcessible.githubrepo.services.event.LoadReposEvent
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.otto.Subscribe
 import retrofit2.Call

@@ -1,4 +1,4 @@
-package com.example.githubrepo;
+package com.appcessible.githubrepo;
 
 import org.junit.Test;
 

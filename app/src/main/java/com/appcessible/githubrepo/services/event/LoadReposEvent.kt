@@ -1,6 +1,6 @@
-package com.example.githubrepo.services.event
+package com.appcessible.githubrepo.services.event
 
-import com.example.githubrepo.models.Repository
+import com.appcessible.githubrepo.models.Repository
 
 class LoadReposEvent : BusEvent<List<Repository>?>() {
     override var data: List<Repository>? = null

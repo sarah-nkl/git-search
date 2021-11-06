@@ -1,10 +1,10 @@
-package com.example.githubrepo.services.module
+package com.appcessible.githubrepo.services.module
 
 import android.app.Application
 import android.content.Context
-import com.example.githubrepo.BaseSearchActivity
-import com.example.githubrepo.MainActivity
-import com.example.githubrepo.MyApplication
+import com.appcessible.githubrepo.BaseSearchActivity
+import com.appcessible.githubrepo.MainActivity
+import com.appcessible.githubrepo.MyApplication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

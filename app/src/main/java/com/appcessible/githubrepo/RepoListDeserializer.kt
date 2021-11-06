@@ -1,7 +1,7 @@
-package com.example.githubrepo
+package com.appcessible.githubrepo
 
-import com.example.githubrepo.models.Repository
-import com.example.githubrepo.models.RepositoryList
+import com.appcessible.githubrepo.models.Repository
+import com.appcessible.githubrepo.models.RepositoryList
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement

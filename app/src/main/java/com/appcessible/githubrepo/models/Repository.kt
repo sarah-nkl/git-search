@@ -1,4 +1,4 @@
-package com.example.githubrepo.models
+package com.appcessible.githubrepo.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

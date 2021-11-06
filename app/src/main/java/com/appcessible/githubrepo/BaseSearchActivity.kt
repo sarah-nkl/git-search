@@ -1,14 +1,14 @@
-package com.example.githubrepo
+package com.appcessible.githubrepo
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.githubrepo.databinding.ActivityMainBinding
-import com.example.githubrepo.models.RepositoryList
-import com.example.githubrepo.services.BusProvider
-import com.example.githubrepo.services.GitHubService
-import com.example.githubrepo.services.event.BusEvent
+import com.appcessible.githubrepo.databinding.ActivityMainBinding
+import com.appcessible.githubrepo.models.RepositoryList
+import com.appcessible.githubrepo.services.BusProvider
+import com.appcessible.githubrepo.services.GitHubService
+import com.appcessible.githubrepo.services.event.BusEvent
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

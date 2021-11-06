@@ -1,9 +1,8 @@
-package com.example.githubrepo.services
+package com.appcessible.githubrepo.services
 
-import com.example.githubrepo.services.event.BusEvent
-import com.example.githubrepo.services.event.BusEventMapping
+import com.appcessible.githubrepo.services.event.BusEvent
+import com.appcessible.githubrepo.services.event.BusEventMapping
 import com.squareup.otto.Bus
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 

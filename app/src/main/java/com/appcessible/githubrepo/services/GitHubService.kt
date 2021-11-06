@@ -1,6 +1,6 @@
-package com.example.githubrepo.services
+package com.appcessible.githubrepo.services
 
-import com.example.githubrepo.models.RepositoryList
+import com.appcessible.githubrepo.models.RepositoryList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

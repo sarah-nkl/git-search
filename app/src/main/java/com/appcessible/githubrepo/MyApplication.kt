@@ -1,7 +1,7 @@
-package com.example.githubrepo
+package com.appcessible.githubrepo
 
 import android.app.Application
-import com.example.githubrepo.services.module.AppModule
+import com.appcessible.githubrepo.services.module.AppModule
 import dagger.ObjectGraph
 
 class MyApplication : Application() {

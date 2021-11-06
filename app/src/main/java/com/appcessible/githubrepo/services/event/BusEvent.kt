@@ -1,4 +1,4 @@
-package com.example.githubrepo.services.event
+package com.appcessible.githubrepo.services.event
 
 abstract class BusEvent<T> {
     enum class EventType {

@@ -1,4 +1,4 @@
-package com.example.githubrepo
+package com.appcessible.githubrepo
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.githubrepo.databinding.ListItemRepoBinding
-import com.example.githubrepo.models.Repository
+import com.appcessible.githubrepo.databinding.ListItemRepoBinding
+import com.appcessible.githubrepo.models.Repository
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale

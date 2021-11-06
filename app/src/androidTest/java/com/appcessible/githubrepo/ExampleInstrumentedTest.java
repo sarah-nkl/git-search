@@ -1,4 +1,4 @@
-package com.example.githubrepo;
+package com.appcessible.githubrepo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
