@@ -1,4 +1,4 @@
-package com.appcessible.githubrepo
+package com.appcessible.gitsearcher
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,10 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.appcessible.githubrepo.models.Repository
-import com.appcessible.githubrepo.models.RepositoryList
-import com.appcessible.githubrepo.services.event.BusEvent
-import com.appcessible.githubrepo.services.event.LoadReposEvent
+import com.appcessible.gitsearcher.models.Repository
+import com.appcessible.gitsearcher.models.RepositoryList
+import com.appcessible.gitsearcher.services.event.BusEvent
+import com.appcessible.gitsearcher.services.event.LoadReposEvent
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.otto.Subscribe
 import retrofit2.Call
@@ -56,11 +56,11 @@ class MainActivity : BaseSearchActivity() {
         }
         layoutManager = GridLayoutManager(this, resources.getInteger(R.integer.grid_item_list_count))
         binding.rvResults.layoutManager = layoutManager
-        binding.rvResults.adapter = RepoListAdapter(this, repoList.orEmpty()).also { adapter = it }
+        binding.rvResults.adapter = RepoListAdapter(repoList.orEmpty()).also { adapter = it }
         if (repoList?.size == 0 && !isLoading) {
             // Check last search
             val lastSearch = sharedPref.getString(SP_LAST_QUERY, "")
-            if (lastSearch == "") {
+            if (lastSearch.isNullOrEmpty()) {
                 // On first load, generate popular repositories
                 getRepoList(QUERY_ON_FIRST_LOAD, SORT_BY_UPDATED, 1)
                 Snackbar.make(binding.coordinatorLayout, noHistMsg, Snackbar.LENGTH_LONG).show()
@@ -172,7 +172,8 @@ class MainActivity : BaseSearchActivity() {
         showProgressBar()
         isLoading = true
         val callProductList = service.listRepos(query, sort, null, pageNum,
-                NUM_LOADED)
+                NUM_LOADED
+        )
         callProductList.enqueue(object : Callback<RepositoryList> {
             override fun onResponse(call: Call<RepositoryList>, response: Response<RepositoryList>) {
                 val event = getEvent(

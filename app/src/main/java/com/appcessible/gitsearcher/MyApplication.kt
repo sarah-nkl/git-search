@@ -1,7 +1,7 @@
-package com.appcessible.githubrepo
+package com.appcessible.gitsearcher
 
 import android.app.Application
-import com.appcessible.githubrepo.services.module.AppModule
+import com.appcessible.gitsearcher.services.module.AppModule
 import dagger.ObjectGraph
 
 class MyApplication : Application() {

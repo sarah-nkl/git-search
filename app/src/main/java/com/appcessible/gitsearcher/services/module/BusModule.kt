@@ -1,4 +1,4 @@
-package com.appcessible.githubrepo.services.module
+package com.appcessible.gitsearcher.services.module
 
 import com.squareup.otto.Bus
 import com.squareup.otto.ThreadEnforcer

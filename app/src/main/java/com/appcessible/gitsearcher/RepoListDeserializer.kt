@@ -1,7 +1,7 @@
-package com.appcessible.githubrepo
+package com.appcessible.gitsearcher
 
-import com.appcessible.githubrepo.models.Repository
-import com.appcessible.githubrepo.models.RepositoryList
+import com.appcessible.gitsearcher.models.Repository
+import com.appcessible.gitsearcher.models.RepositoryList
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement

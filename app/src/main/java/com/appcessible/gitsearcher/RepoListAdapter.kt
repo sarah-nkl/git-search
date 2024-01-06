@@ -1,4 +1,4 @@
-package com.appcessible.githubrepo
+package com.appcessible.gitsearcher
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -16,19 +16,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.appcessible.githubrepo.databinding.ListItemRepoBinding
-import com.appcessible.githubrepo.models.Repository
+import com.appcessible.gitsearcher.databinding.ListItemRepoBinding
+import com.appcessible.gitsearcher.models.Repository
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class RepoListAdapter(
-        private val activity: AppCompatActivity,
         private val repoList: List<Repository>
 ) : RecyclerView.Adapter<RepoListAdapter.ViewHolder>() {
-    private val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private lateinit var inflater: LayoutInflater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        inflater = LayoutInflater.from(parent.context)
         val binding: ListItemRepoBinding = ListItemRepoBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
@@ -57,9 +57,9 @@ class RepoListAdapter(
                     System.currentTimeMillis(),
                     DateUtils.DAY_IN_MILLIS)
         }
-        Glide.with(activity)
+        Glide.with(holder.binding.civProfile.context)
                 .load(item.ownerAvatarUrl)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(holder.binding.civProfile)
     }
 
@@ -74,9 +74,9 @@ class RepoListAdapter(
                 val url = repoList[adapterPosition].htmlUrl
                 val intent = Intent(Intent.ACTION_VIEW).also { it.data = Uri.parse(url) }
                 try {
-                    activity.startActivity(intent)
+                    it.context.startActivity(intent)
                 } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(activity, "No browser app available", LENGTH_SHORT).show()
+                    Toast.makeText(it.context, "No browser app available", LENGTH_SHORT).show()
                 }
             }
         }

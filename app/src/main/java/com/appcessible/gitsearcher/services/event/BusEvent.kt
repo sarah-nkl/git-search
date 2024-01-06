@@ -1,4 +1,4 @@
-package com.appcessible.githubrepo.services.event
+package com.appcessible.gitsearcher.services.event
 
 abstract class BusEvent<T> {
     enum class EventType {

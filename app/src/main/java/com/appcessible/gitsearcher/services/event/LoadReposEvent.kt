@@ -1,6 +1,6 @@
-package com.appcessible.githubrepo.services.event
+package com.appcessible.gitsearcher.services.event
 
-import com.appcessible.githubrepo.models.Repository
+import com.appcessible.gitsearcher.models.Repository
 
 class LoadReposEvent : BusEvent<List<Repository>?>() {
     override var data: List<Repository>? = null

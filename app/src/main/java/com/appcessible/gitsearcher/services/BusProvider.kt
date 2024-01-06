@@ -1,7 +1,7 @@
-package com.appcessible.githubrepo.services
+package com.appcessible.gitsearcher.services
 
-import com.appcessible.githubrepo.services.event.BusEvent
-import com.appcessible.githubrepo.services.event.BusEventMapping
+import com.appcessible.gitsearcher.services.event.BusEvent
+import com.appcessible.gitsearcher.services.event.BusEventMapping
 import com.squareup.otto.Bus
 import javax.inject.Inject
 import javax.inject.Singleton

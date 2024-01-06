@@ -1,6 +1,6 @@
-package com.appcessible.githubrepo.services
+package com.appcessible.gitsearcher.services
 
-import com.appcessible.githubrepo.models.RepositoryList
+import com.appcessible.gitsearcher.models.RepositoryList
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

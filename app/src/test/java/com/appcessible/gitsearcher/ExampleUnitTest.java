@@ -1,4 +1,4 @@
-package com.appcessible.githubrepo;
+package com.appcessible.gitsearcher;
 
 import org.junit.Test;
 
